@@ -93,7 +93,7 @@ const [changeTask,setChangeTask]=useState();
   const [toggleBoard,setToggleBoard]=useState(false)
   const [toggleCard,setToggleCard]=useState(false)
 
-  const [showPopup, setShowPopup] = useState(false)
+  // const [showPopup, setShowPopup] = useState(false)
   const handleBoard=()=>{
     if (toggleBoard){
       console.log(toggleBoard);
@@ -128,8 +128,6 @@ const [changeTask,setChangeTask]=useState();
   axios.put("http://localhost:8000/Column/"+data.id,data)
   console.log(data)
 }
-//  axios.put("http://localhost:8000/Column",data)
-// getColumn()
  }
 
 
@@ -158,9 +156,9 @@ const [changeTask,setChangeTask]=useState();
       updateColumn(defaultvalue)
     }
  
-  function focusHandler(index: any): void {
-    throw new Error('Function not implemented.');
-  }
+  // function focusHandler(index: any): void {
+  //   throw new Error('Function not implemented.');
+  // }
 const[toggleMenu,setToggleMenu]=useState(false)
   const handleDb=()=>{
     if(toggleMenu){
@@ -221,7 +219,6 @@ const handleDelete=(val:any,v:any)=>{
     const [loggedIn,setLoggedIn]=useState(false)
     const handleLogIn=()=>{
         setLoggedIn(true)
-        // pullFromDB(nameBoard);
         console.log(defaultvalue)
     }
     

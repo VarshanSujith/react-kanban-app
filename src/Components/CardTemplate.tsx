@@ -6,8 +6,7 @@ import axios from 'axios';
 // import { cardarray } from '../App'
 
 function CardTemplate({toggleCard,setToggleCard,changeTask,setchangeTask,nameBoard,setNameBoard,colLength,setColLength,getColumn,user}:{user:any,getColumn:any,colLength:any,setColLength:any,toggleCard:any,setToggleCard:any,changeTask:any,setchangeTask:any,nameBoard:any,setNameBoard:any}) {
-  // const [date,setDate]=useState(new Date());
-  // const handleDate=(date)=>setDate(date);
+  
  const [card,setCard]=useState({
   taskId:uuidv4(),
   imageUrl:'',
@@ -19,43 +18,10 @@ function CardTemplate({toggleCard,setToggleCard,changeTask,setchangeTask,nameBoa
  })
   function handleColor(e:React.ChangeEvent<HTMLSelectElement>){
     setCard({...card,color:e.target.value})
-    // console.log(e)
+
     
   }
 
-// const addCardtoDb=(card:cardarray)=>{
-//   const db=getDatabase()
- 
-// for(let i=0;i<colLength.length;i++)
-//   if(colLength[i]===changeTask){
-//     var data:any;
-//   console.log(card+'  asv')
-//   onValue(ref(db, "Board/"+nameBoard+"/columns/"+i), (snapshot) => {
-//         data = snapshot.val();
-//     // console.log(snapshot.val());
-//     // setDefaultvalue(data.columns)
-//     console.log(data.task+"   me before");
-//     data.task.push(card);
-//     });
-//     console.log(data!.task+"   me after :)");
-//   set(ref(db,"Board/"+nameBoard+"/columns/"+i),
-//   {
-//     id:data.id,
-//     limit:data.limit,
-//     task:data.task,
-//     TaskName:data.TaskName
-//     // subTaskName: 'im workingg',
-//     // taskId:card.taskId,
-//     // name:card.taskName,
-//     // imageUrl:card.imageUrl,
-//     // color:card.color,
-//     // description:card.description,
-//     // date:card.date
-//   }
-//   )
-
-// }
-// }
 console.log(changeTask);
 async function postCard(){
   let data={id:changeTask.id, TaskName:changeTask.TaskName, task:[...changeTask.task,{...card}]}
@@ -74,13 +40,9 @@ const handleToggle=()=>{
   setToggleCard(false)
 }
 const handleTitle=()=>{
-  // card.subTaskName=changeTask
-  console.log(card)
-  // addCardtoDb(card) 
   postCard();
 }
   const handleSubmit=(e:FormEvent)=>{
-    // console.log(e) 
       e.preventDefault()
   }
   const handleChecked=(e:any,index:any)=>{
@@ -88,7 +50,6 @@ const handleTitle=()=>{
     if(e.target.checked){
       val.push(e.target.value)
       setCard({...card,tag:val})
-      console.log(card)
     }
     else{
       val.splice(index,1)

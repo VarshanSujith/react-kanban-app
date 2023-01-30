@@ -84,13 +84,8 @@ function addDatatodb(board:any){
     _columns[i][e.target.name as keyof ObjectType]=e.target.value
     setBoard({...board,columns:_columns})
     console.log(board.columns)
-    // setColLength(...colLength,e.target.value)
   }
-  // const handleval=(e:React.ChangeEvent<HTMLInputElement>)=>{
-  //   let _inviteuser:{}[] =[...board.inviteuser];
-  //   _inviteuser.push(e.target.value);
-  //   setBoard({...board,inviteuser:_inviteuser})
-  // }
+
   const handleMail=()=>{
       setMail(mail+1)
 
@@ -98,7 +93,6 @@ function addDatatodb(board:any){
   const handleClose=()=>{
     setToggleBoard(false)
   }
-  // const [nameBoard, setNameBoard]=useState('')
 
   const [board,setBoard]=useState({
     boardName:'',
