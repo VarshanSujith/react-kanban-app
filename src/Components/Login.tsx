@@ -44,11 +44,11 @@ function handleClick(){
         <hr />
         <div className='flex flex-col gap-1'>
             <label className='font-semibold'>Email:</label>
-            <input required autoFocus name='email' type="email" onChange={(e)=>{setAccount({...account,email:e.target.value});setCheck(false)}}/>
+            <input required autoFocus name='email' type="email" placeholder='halo@gmail.com' onChange={(e)=>{setAccount({...account,email:e.target.value});setCheck(false)}}/>
         </div>
         <div className='flex flex-col gap-1'>
             <label className='font-semibold'>Password:</label>
-            <input required name='password' type="password" id='myInput' onChange={(e)=>{setAccount({...account,password:e.target.value});setCheck(false)}} />
+            <input required name='password' type="password" id='myInput'placeholder='holahaloo' onChange={(e)=>{setAccount({...account,password:e.target.value});setCheck(false)}} />
             <div>
             <input type="checkbox" onClick={myFunction}/>Show Password</div>
         </div>
