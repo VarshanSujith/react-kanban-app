@@ -15,23 +15,43 @@ const Login = () => {
 const [loggedIn,setLoggedIn]=useState(false)
 const [check,setCheck]=useState(false)
  const [account,setAccount]=useState({
-    email:'',
+    userName:'',
     password:'',
  })    
  var checkAccount={
-    email:'halo@gmail.com',
-    password:'holahaloo'
+    username:'Arjun',
+    password:'Arjun1234'
  } 
  const navigate = useNavigate();
 function handleClick(){
-    if(checkAccount.email===account.email && checkAccount.password ===account.password){
+    if(checkAccount.username===account.userName && checkAccount.password ===account.password){
         setCheck(false)
         setLoggedIn(true)
         navigate("/kanban");
-        console.log('yess');
-       
-        
+        console.log('yess'); 
     }
+    else if(account.userName==="Varun" && account.password==="Varun1234")
+    {
+      setCheck(false)
+      setLoggedIn(true)
+      navigate("/kanban");
+      console.log('yess'); 
+    }
+    else if(account.userName==="Anand" && account.password==="Anand1234")
+    {
+      setCheck(false)
+      setLoggedIn(true)
+      navigate("/kanban");
+      console.log('yess'); 
+    }
+    else if(account.userName==="Parvati" && account.password==="Parvati1234")
+    {
+      setCheck(false)
+      setLoggedIn(true)
+      navigate("/kanban");
+      console.log('yess'); 
+    }
+
     else{
         setLoggedIn(false)
         setCheck(true)
@@ -44,11 +64,11 @@ function handleClick(){
         <hr />
         <div className='flex flex-col gap-1'>
             <label className='font-semibold'>Email:</label>
-            <input required autoFocus name='email' type="email" placeholder='halo@gmail.com' onChange={(e)=>{setAccount({...account,email:e.target.value});setCheck(false)}}/>
+            <input required autoFocus name='email' type="text" placeholder='Arjun' onChange={(e)=>{setAccount({...account,userName:e.target.value});setCheck(false)}}/>
         </div>
         <div className='flex flex-col gap-1'>
             <label className='font-semibold'>Password:</label>
-            <input required name='password' type="password" id='myInput'placeholder='holahaloo' onChange={(e)=>{setAccount({...account,password:e.target.value});setCheck(false)}} />
+            <input required name='password' type="password" id='myInput'placeholder='Arjun1234' onChange={(e)=>{setAccount({...account,password:e.target.value});setCheck(false)}} />
             <div>
             <input type="checkbox" onClick={myFunction}/>Show Password</div>
         </div>

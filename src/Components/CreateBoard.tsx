@@ -6,7 +6,7 @@ const Board = ({defaultvalue,setDefaultvalue,setToggleBoard,nameBoard,setNameBoa
   
 function addDatatodb(board:any){
   let a={id:1,board:board.boardName}
-   axios.put("http://localhost:8000/boardName/"+1,a)
+  //  axios.put("http://localhost:8000/boardName/"+1,a)
    console.log(board.columns.length)
    for(let i=0;i<board.columns.length;i++){
     let dval=board.columns
@@ -16,11 +16,11 @@ function addDatatodb(board:any){
     // if(board.columns[i].id)
     //     axios.put("http://localhost:8000/Column/"+dval[i].id,data)
     // else  
-        axios.post("http://localhost:8000/Column/",data)    
+        // axios.post("http://localhost:8000/Column/",data)    
    }
    for(let i=0;i<board.inviteuser;i++){
     let data={mail:board.inviteuser[i]}
-    axios.post("http://localhost:8000/Column/",data)
+    // axios.post("http://localhost:8000/Column/",data)
    }
    getColumn()
 }
@@ -148,8 +148,8 @@ function addDatatodb(board:any){
           <div className='flex flex-col gap-2'>
           <div className='flex flex-row my-2 gap-4'>
           <input autoFocus required className='border-[1px] border-[#FFFFFF] rounded-md' name="email" type="text" />
-          <button className='bg-[#FBFBFB] w-1/5 border-[1px] border-[#FFFFFF] hover:bg-[#F3F3F3] rounded-md' onClick={handleMail}>Invite User</button></div>
-          <div >
+          <button className='bg-[#FBFBFB] w-1/5 border-[1px] border-[#FFFFFF] hover:bg-[#F3F3F3] rounded-md' >Invite User</button></div>
+          {/* <div >
            { 
               board.inviteuser.map((ab)=>(
                 <div>
@@ -159,7 +159,7 @@ function addDatatodb(board:any){
                
               ))
             }
-          </div>
+          </div> */}
 
           {/* {mail && <p>{board.inviteuser[0]}</p>}
           <p>{board.boardName}</p> */}

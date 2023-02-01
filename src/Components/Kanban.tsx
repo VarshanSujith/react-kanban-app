@@ -4,6 +4,8 @@ import { DragDropContext,Droppable, Draggable } from 'react-beautiful-dnd';
 import CardTemplate from './CardTemplate';
 import Board from './CreateBoard';
 import axios from 'axios';
+import useLocalStorage from './useLocalStorage';
+import { useNavigate } from 'react-router-dom';
 
 export type boardProps={
   boardName:string
@@ -33,44 +35,103 @@ export type cardarray={
 
 
 function Kanban() { 
-  
+
   // dummy db 
-  const [defaultvalue,setDefaultvalue]=useState([
+  const [defaultvalue,setDefaultvalue]=useLocalStorage("boardData",[
     {id:'1', TaskName:'To-do',task:[{
         taskId:'11',
         imageUrl:'https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg',
         taskName:'Complete Phase 1',
-        color:'#8778D7',
+        color:'white',
         description:'Phase 1 is important so kindly focus',
-        tag:[''],
-        date:'26/01/2022'
+        tag:[
+          {
+            imgUrl:"https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg",
+            label: "Arjun",
+            value: "Arjun",
+            password: "Arjun1234",
+          },
+          {
+            imgUrl:"https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg",
+            label: "Varun",
+            value: "Varun",
+            password: "Varun1234",
+          }
+        ],
+        date:'2023-01-22'
        }]},
-    {id:'2', TaskName:'Do today',task:[{
-        taskId:'',
-        imageUrl:'',
-        taskName:'',
-        color:'',
+    {id:'2', 
+    TaskName:'Do today',
+    task:[
+      {
+        taskId:'21',
+        imageUrl:'https://www.istockphoto.com/resources/images/PhotoFTLP/P4-JAN-iStock-1432854572.jpg',
+        taskName:'Find Bugs',
+        color:'white',
         description:'',
-        tag:[''],
-        date:''
-       }]},
+        tag:[
+          {
+            imgUrl:"https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg",
+            label: "Arjun",
+            value: "Arjun",
+            password: "Arjun1234",
+          },
+          {
+            imgUrl:"https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg",
+            label: "Varun",
+            value: "Varun",
+            password: "Varun1234",
+          }
+
+        ],
+        date:'2023-01-24'
+       }
+      ]
+    },
     {id:'3', TaskName:'In Progress',task:[{
-        taskId:'',
-        imageUrl:'',
-        taskName:'',
-        color:'',
+        taskId:'31',
+        imageUrl:'https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8=',
+        taskName:'Change the Outlook',
+        color:'white',
         description:'',
-        tag:[''],
-        date:''
+        tag:[
+          {
+            imgUrl:"https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg",
+            label: "Varun",
+            value: "Varun",
+            password: "Varun1234",
+          },
+          {
+            imgUrl:"https://www.morganstanley.com/content/dam/msdotcom/people/tiles/isaiah-dwuma.jpg.img.490.medium.jpg/1594668408164.jpg",
+            label: "Anand",
+            value: "Anand1234",
+            password: "Anand1234",
+          }
+        ],
+        date:'2023-01-26'
        }]},
     {id:'4', TaskName:'Done',task:[{
-        taskId:'',
-        imageUrl:'',
-        taskName:'',
-        color:'',
+        taskId:'41',
+        imageUrl:'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
+        taskName:'Fix the Bug',
+        color:'white',
         description:'',
-        tag:[''],
-        date:''  
+        tag:[
+          {
+            imgUrl:"https://www.morganstanley.com/content/dam/msdotcom/people/tiles/isaiah-dwuma.jpg.img.490.medium.jpg/1594668408164.jpg",
+            label: "Anand",
+            value: "Anand1234",
+            password: "Anand1234",
+          },
+          {
+            imgUrl:"https://cdn2.f-cdn.com/files/download/38547697/ddc116.jpg",
+            label: "Parvati",
+            value: "Parvati",
+            password: "Parvati1234",
+          },
+
+        ],
+        date:'2023-01-28'  
        }]}   
   ])
 
@@ -81,14 +142,10 @@ function Kanban() {
 const [changeTask,setChangeTask]=useState();
   const handleCard=(val:any)=>{
     setChangeTask(val)
-    if(toggleCard){
-      console.log(changeTask);
-      setToggleCard(false)
-      
-    }
-    else{
-      setToggleCard(true)
-    }
+
+    setToggleCard(!toggleCard)
+    console.log(changeTask,val);
+    console.log(toggleCard);
   }
   const [toggleBoard,setToggleBoard]=useState(false)
   const [toggleCard,setToggleCard]=useState(false)
@@ -123,11 +180,14 @@ const [changeTask,setChangeTask]=useState();
   }
     } 
  function updateColumn(dval:any){
+  let temp=[]
   for(let i=0;i<dval.length;i++){
   let data={id:dval[i].id, TaskName:dval[i].TaskName, task:[...dval[i].task]}
-  axios.put("http://localhost:8000/Column/"+data.id,data)
+  // axios.put("http://localhost:8000/Column/"+data.id,data)
+  temp.push(data)
   console.log(data)
 }
+setDefaultvalue(temp)
  }
 
 
@@ -136,8 +196,8 @@ const [changeTask,setChangeTask]=useState();
       const {source ,destination } = result
 
       if(source.droppableId !==destination.droppableId){
-        const sourceColIndex= defaultvalue.findIndex((e)=>e.id===source.droppableId)
-        const destinationColIndex= defaultvalue.findIndex((e)=>e.id===destination.droppableId)
+        const sourceColIndex= defaultvalue.findIndex((e:any)=>e.id===source.droppableId)
+        const destinationColIndex= defaultvalue.findIndex((e:any)=>e.id===destination.droppableId)
 
         const sourceCol=defaultvalue[sourceColIndex]
         const destinationCol=defaultvalue[destinationColIndex]
@@ -152,7 +212,7 @@ const [changeTask,setChangeTask]=useState();
         defaultvalue[destinationColIndex].task=destinationTask
        
       }
-      console.log(defaultvalue)
+      // console.log(defaultvalue)
       updateColumn(defaultvalue)
     }
  
@@ -170,7 +230,7 @@ const[toggleMenu,setToggleMenu]=useState(false)
 const [nameBoard, setNameBoard]=useState('')
 const[colLength,setColLength]=useState<string[]>([])
 
-useEffect(()=>{getColumn();getUser()},[])
+// useEffect(()=>{getColumn();getUser()},[])
 
 async function getColumn(){
     try {
@@ -192,33 +252,49 @@ async function getUser(){
   }
 }
 
-async function deleteItem(par:any,chi:any){
-  let data={id:par.id, TaskName:par.TaskName, task:[...par.task]}
-  let vv = par.task.length
-  for(let i=0;i<vv;i++){
-    console.log(i,par.task+" hello  ");
-    if(data.task[i].taskId===chi.taskId){
-      console.log("gonna remove");
-      data.task.splice(i,1);
-      break
+function deleteItem(parent:any,child:any){
+    let temp=[];
+    console.log(parent.id,child.taskId +" c ds sd  ")
+    console.log(defaultvalue);
+    for(let i=0;i<defaultvalue.length;i++){
+      if(defaultvalue[i].id===parent.id){
+        var tempCard=defaultvalue[i].task.filter((item:any, i:number)=>(item.taskId !==child.taskId))
+        temp.push({...defaultvalue[i],task:tempCard})
+      }
+      else{
+        temp.push(defaultvalue[i])
+      }
     }
-  }
-  try {
-    let response=await axios.put("http://localhost:8000/Column/"+par.id,data)
-    console.log(response)
-    getColumn()
-  } catch (error) {
-    console.log(error);
-  }
+    console.log(defaultvalue);
+    setDefaultvalue(temp)
+
+  // let data={id:par.id, TaskName:par.TaskName, task:[...par.task]}
+  // let vv = par.task.length
+  // for(let i=0;i<vv;i++){
+  //   console.log(i,par.task+" hello  ");
+  //   if(data.task[i].taskId===chi.taskId){
+  //     console.log("gonna remove");
+  //     data.task.splice(i,1);
+  //     break
+  //   }
+  // }
+  // try {
+  //   let response=await axios.put("http://localhost:8000/Column/"+par.id,data)
+  //   console.log(response)
+  //   getColumn()
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
-
+const navigate = useNavigate();
 const handleDelete=(val:any,v:any)=>{
   deleteItem(val,v)
 }
     const [loggedIn,setLoggedIn]=useState(false)
     const handleLogIn=()=>{
         setLoggedIn(true)
+        navigate("/");
         console.log(defaultvalue)
     }
     
@@ -238,7 +314,7 @@ const dummy=()=>{
       <div className='flex flex-row gap-2 pr-2'>
         <button className='hover:bg-[#666666] bg-[#515151] text-[#EBFAFF] border-[1px] border-[#434343] my-2 mx-1 rounded-sm w-[20px]' onClick={handleDb}><i className="fas fa-bell"></i></button>
         <button className='hover:bg-[#666666] bg-[#515151] text-[#EBFAFF] border-[1px] border-[#434343] my-2 mx-1 rounded-sm w-[20px]' onClick={dummy}><i className="fas fa-question"></i></button>
-        <button className='hover:bg-[#666666] bg-[#515151] text-[#EBFAFF] border-[1px] border-[#434343] my-2 mx-1 rounded-sm' onClick={handleLogIn}>SV</button>
+        <button className='hover:bg-[#666666] bg-[#515151] text-[#EBFAFF] border-[1px] border-[#434343] my-2 mx-1 rounded-sm' onClick={handleLogIn}>Logout</button>
       </div>
       {toggleMenu &&< div className=" pl-2 pr-2 p-2 absolute  right-0 w-[250px] bg-white mr-[25px] mt-[42px]  border-2  cursor-pointer rounded-md">
           <div className="font-bold ">Notifications</div>
@@ -264,7 +340,7 @@ const dummy=()=>{
           padding: '20px',
           borderRadius: '10px'
         }}>
-          <CardTemplate user={user}  colLength={colLength} setColLength={setColLength} setToggleCard={setToggleCard} toggleCard={toggleCard} changeTask={changeTask} setchangeTask={setChangeTask} nameBoard={nameBoard} setNameBoard={setNameBoard}getColumn={getColumn} />
+          <CardTemplate user={user} defaultvalue={defaultvalue} setDefaultvalue={setDefaultvalue} colLength={colLength} setColLength={setColLength} setToggleCard={setToggleCard} toggleCard={toggleCard} changeTask={changeTask} nameBoard={nameBoard} setNameBoard={setNameBoard}getColumn={getColumn} />
           {/* <button onClick={handleCard}>Close</button> */}
         </div>
       )}
@@ -278,7 +354,7 @@ const dummy=()=>{
           padding: '20px',
           borderRadius: '10px'
         }}>
-          <CardEditor user={user} colLength={colLength} setColLength={setColLength} getColumn={getColumn} edit={edit} setEdit={setEdit} changeTask={changeTask} setTEdit={setTEdit} nameBoard={nameBoard} setNameBoard={setNameBoard}/>
+          <CardEditor defaultvalue={defaultvalue} setDefaultvalue={setDefaultvalue} user={user} colLength={colLength} setColLength={setColLength} getColumn={getColumn} edit={edit} setEdit={setEdit} changeTask={changeTask} setTEdit={setTEdit} nameBoard={nameBoard} setNameBoard={setNameBoard}/>
           {/* <button onClick={handleCard}>Close</button> */}
         </div>
       )}
@@ -286,7 +362,7 @@ const dummy=()=>{
 
       <DragDropContext onDragEnd={onDragEnd}>
       <div className='flex flex-row justify-evenly gap-4 h-[85vh] mt-6 mx-3'>
-      {defaultvalue.map((val=>
+      {defaultvalue.map(((val:any) =>
 
         <Droppable
         key={val.id} 
@@ -305,7 +381,7 @@ const dummy=()=>{
           </header>
           <main>
            <div>
-            {val.task[0] &&val.task.map(((v,index)=>
+            {val.task && val.task.map(((v:any,index:number)=>
 
               <Draggable
               key={v.taskId}
@@ -332,7 +408,11 @@ const dummy=()=>{
                     <div className='flex flex-row justify-between mb-2'>
                       {v.description && <p className='text-sm text-[#172B4D]'>{v.description}</p>}
                       </div>
-                      {v.tag &&<p>{v.tag} </p>}
+                      {v.tag &&<div className='flex flex-row-reverse'>
+                        {v.tag.map((t:any)=>(
+                            <img src={t.imgUrl} alt="" className='h-8 w-8 rounded-full' />
+                        ))}
+                      </div> }
                     {v.date && <p className='text-[#6D798E]'><i className="fas fa-calendar-alt"></i> {v.date}</p>}
                   </div>
                 </div>

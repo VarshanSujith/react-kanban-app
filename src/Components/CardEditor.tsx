@@ -1,8 +1,9 @@
 import React, { FormEvent} from 'react'
 import { cardarray } from './Kanban'
-import axios from 'axios'
+import Select from 'react-select'
+import { usersInfo } from './CardTemplate'
 
-function cardEditor({edit,setEdit,setTEdit,nameBoard,setNameBoard,changeTask,colLength,setColLength,getColumn,user}:{user:any,getColumn:any,colLength:any,setColLength:any,edit:any,setEdit:any,setTEdit:any,nameBoard:any,setNameBoard:any,changeTask:any}) {
+function cardEditor({edit,setEdit,setTEdit,nameBoard,setNameBoard,changeTask,colLength,setColLength,getColumn,user, defaultvalue,setDefaultvalue}:{setDefaultvalue:any,defaultvalue:any, user:any,getColumn:any,colLength:any,setColLength:any,edit:any,setEdit:any,setTEdit:any,nameBoard:any,setNameBoard:any,changeTask:any}) {
 
 function handleColor(e:React.ChangeEvent<HTMLSelectElement>){
     setEdit({...edit,color:e.target.value})
@@ -22,26 +23,44 @@ const handleSubmit=(e:FormEvent)=>{
     addCardtoDb(edit) 
   }  
 
-async function addCardtoDb(card:cardarray){
+// async function addCardtoDb(card:cardarray){
+//   console.log(changeTask);
+//   let data={id:changeTask.id, TaskName:changeTask.TaskName, task:[...changeTask.task,{...edit}]}
+//   for(let i=0;i<changeTask.task.length;i++){
+//     if(changeTask.task[i].taskId===edit.taskId){
+//       data.task.splice(i,1)
+//       break;
+//     }
+//   }
+//   console.log(data)
+//   try {
+    
+//     let response=await axios.put("http://localhost:8000/Column/"+changeTask.id,data)
+//     console.log(response)
+//     getColumn()
+//     setTEdit(false)
+//   } catch (error) {
+//     console.log(error);
+//   }
+//     }
+
+function addCardtoDb(card:cardarray){
   console.log(changeTask);
   let data={id:changeTask.id, TaskName:changeTask.TaskName, task:[...changeTask.task,{...edit}]}
-  for(let i=0;i<changeTask.task.length;i++){
-    if(changeTask.task[i].taskId===edit.taskId){
-      data.task.splice(i,1)
-      break;
+  let temp=[];
+    console.log(defaultvalue);
+    for(let i=0;i<defaultvalue.length;i++){
+      if(defaultvalue[i].id===data.id){
+        var tempCard=defaultvalue[i].task.filter((item:any, i:number)=>(item.taskId !==edit.taskId))
+        temp.push({...defaultvalue[i],task:[...tempCard,{...edit}]})
+        // temp.push({...defaultvalue[i],task:edit})
+      }
+      else{
+        temp.push(defaultvalue[i])
+      }
     }
-  }
-  console.log(data)
-  try {
-    
-    let response=await axios.put("http://localhost:8000/Column/"+changeTask.id,data)
-    console.log(response)
-    getColumn()
-    setTEdit(false)
-  } catch (error) {
-    console.log(error);
-  }
-    }
+    setDefaultvalue(temp)
+}
 
   return (
     <div className='flex flex-col w-fit items-center border-[1px] border-white rounded-md shadow-md shadow-black'>
@@ -76,12 +95,15 @@ async function addCardtoDb(card:cardarray){
         </div>
         <div className='flex flex-col'>
         <label htmlFor="">users:</label>
-          {user.map((item:any)=>(
-                 <div>
-          <input type="checkbox" id="one" name="" value={item.mail}/>
-          <label>{item.mail}</label>
-          </div>
-          ))}
+        <Select
+              isMulti
+              name="colors"
+              options={usersInfo}
+              className="basic-multi-select"
+              defaultValue={edit.tag}
+              classNamePrefix="select"
+              onChange={(e:any)=>{setEdit({...edit,tag:e})}}
+              />
         
         </div>
         <div className='flex flex-col gap-2'>

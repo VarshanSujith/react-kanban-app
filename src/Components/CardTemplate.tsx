@@ -1,18 +1,54 @@
 import React, { FormEvent, useState } from 'react'
 import { uuidv4 } from '@firebase/util';
+import Select from 'react-select';
 
 import axios from 'axios';
 // import InviteUser from './sample/InviteUser';
 // import { cardarray } from '../App'
 
-function CardTemplate({toggleCard,setToggleCard,changeTask,setchangeTask,nameBoard,setNameBoard,colLength,setColLength,getColumn,user}:{user:any,getColumn:any,colLength:any,setColLength:any,toggleCard:any,setToggleCard:any,changeTask:any,setchangeTask:any,nameBoard:any,setNameBoard:any}) {
+type typeUsers = {
+  imgUrl:string;
+  value: string;
+  label?: string;
+  password: string;
+};
+export const usersInfo: typeUsers[] = [
+  {
+    imgUrl:"https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg",
+    label: "Arjun",
+    value: "Arjun",
+    password: "Arjun1234",
+  },
+  {
+    imgUrl:"https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg",
+    label: "Varun",
+    value: "Varun",
+    password: "Varun1234",
+  },
+  {
+    imgUrl:"https://www.morganstanley.com/content/dam/msdotcom/people/tiles/isaiah-dwuma.jpg.img.490.medium.jpg/1594668408164.jpg",
+    label: "Anand",
+    value: "Anand1234",
+    password: "Anand1234",
+  },
+  {
+    imgUrl:"https://cdn2.f-cdn.com/files/download/38547697/ddc116.jpg",
+    label: "Parvati",
+    value: "Parvati",
+    password: "Parvati1234",
+  },
+ 
+];
+
+
+function CardTemplate({toggleCard,setToggleCard,changeTask,nameBoard,setNameBoard,colLength,setColLength,getColumn,user,defaultvalue,setDefaultvalue}:{setDefaultvalue:any,defaultvalue:any ,user:any,getColumn:any,colLength:any,setColLength:any,toggleCard:any,setToggleCard:any,changeTask:any,nameBoard:any,setNameBoard:any}) {
   
  const [card,setCard]=useState({
   taskId:uuidv4(),
   imageUrl:'',
   taskName:'',
   color:'white',
-  tag:[''],
+  tag:[],
   description:'',
   date:''
  })
@@ -23,17 +59,23 @@ function CardTemplate({toggleCard,setToggleCard,changeTask,setchangeTask,nameBoa
   }
 
 console.log(changeTask);
-async function postCard(){
+function postCard(){
+  console.log(changeTask);
   let data={id:changeTask.id, TaskName:changeTask.TaskName, task:[...changeTask.task,{...card}]}
-  console.log(data)
-  try {
-    let response=await axios.put("http://localhost:8000/Column/"+changeTask.id,data)
-    setToggleCard(false)
-    console.log(response)
-    getColumn()
-  } catch (error) {
-    console.log(error);
-  }
+  let temp=[];
+    // console.log(parent.id,child.taskId +" c ds sd  ")
+    console.log(defaultvalue);
+    for(let i=0;i<defaultvalue.length;i++){
+      if(defaultvalue[i].id===data.id){
+        temp.push(data)
+      }
+      else{
+        temp.push(defaultvalue[i])
+      }
+    }
+    console.log(defaultvalue);
+    console.log(temp);
+    setDefaultvalue(temp)
 }
 
 const handleToggle=()=>{
@@ -41,6 +83,7 @@ const handleToggle=()=>{
 }
 const handleTitle=()=>{
   postCard();
+  // console.log(card,"savdv");
 }
   const handleSubmit=(e:FormEvent)=>{
       e.preventDefault()
@@ -96,15 +139,15 @@ const handleTitle=()=>{
         </div>
         <div className='flex flex-col'>
         <label htmlFor="">users:</label>
-          {user.map((item:any,index:any)=>(
-                 <div>
-          <input type="checkbox" id="one" name="" value={item.mail} onChange={(e)=>handleChecked(e,index)}/>
-          <label>{item.mail}</label>
-          </div>
-          ))}
-        
+        <Select
+              isMulti
+              name="colors"
+              options={usersInfo}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={(e:any)=>{setCard({...card,tag:e})}}
+              />
         </div>
-        
         <div className='flex flex-col'>
         <label htmlFor="">Date:</label> 
         <input type="date" className='border-[1px] border-[#EBECF0] rounded-md pl-1' value={card.date} onChange={(e)=>{setCard({...card,date:e.target.value})}} />
@@ -117,5 +160,5 @@ const handleTitle=()=>{
 
   )
 }
-
+// 
 export default CardTemplate
