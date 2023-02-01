@@ -42,7 +42,7 @@ function Kanban() {
         taskId:'11',
         imageUrl:'https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg',
         taskName:'Complete Phase 1',
-        color:'white',
+        // color:'white',
         description:'Phase 1 is important so kindly focus',
         tag:[
           {
@@ -67,7 +67,7 @@ function Kanban() {
         taskId:'21',
         imageUrl:'https://www.istockphoto.com/resources/images/PhotoFTLP/P4-JAN-iStock-1432854572.jpg',
         taskName:'Find Bugs',
-        color:'white',
+        // color:'white',
         description:'',
         tag:[
           {
@@ -92,7 +92,7 @@ function Kanban() {
         taskId:'31',
         imageUrl:'https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8=',
         taskName:'Change the Outlook',
-        color:'white',
+        // color:'white',
         description:'',
         tag:[
           {
@@ -114,7 +114,7 @@ function Kanban() {
         taskId:'41',
         imageUrl:'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg',
         taskName:'Fix the Bug',
-        color:'white',
+        // color:'white',
         description:'',
         tag:[
           {

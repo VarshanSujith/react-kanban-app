@@ -47,16 +47,16 @@ function CardTemplate({toggleCard,setToggleCard,changeTask,nameBoard,setNameBoar
   taskId:uuidv4(),
   imageUrl:'',
   taskName:'',
-  color:'white',
+  // color:'white',
   tag:[],
   description:'',
   date:''
  })
-  function handleColor(e:React.ChangeEvent<HTMLSelectElement>){
-    setCard({...card,color:e.target.value})
+  // function handleColor(e:React.ChangeEvent<HTMLSelectElement>){
+  //   setCard({...card,color:e.target.value})
 
     
-  }
+  // }
 
 console.log(changeTask);
 function postCard(){
@@ -82,11 +82,14 @@ const handleToggle=()=>{
   setToggleCard(false)
 }
 const handleTitle=()=>{
+  setToggleCard(false)
   postCard();
+
   // console.log(card,"savdv");
 }
   const handleSubmit=(e:FormEvent)=>{
       e.preventDefault()
+      setToggleCard(false)
   }
   const handleChecked=(e:any,index:any)=>{
     let val:any=[];
@@ -101,8 +104,8 @@ const handleTitle=()=>{
   }
   console.log(card);
   return (
-    <div className='flex flex-col items-center border-[1px] border-white rounded-md shadow-md shadow-black'>
-      <div style={{backgroundColor:card.color}}>
+    <div className='flex flex-col items-center border-[1px] border-white rounded-md shadow-md shadow-black bg-white'>
+      <div className='white'>
       <div  className='flex flex-row justify-between gap-4 m-2'>
       <h2 className='font-semibold text-center my-2'>Create Card</h2>
 
@@ -122,7 +125,7 @@ const handleTitle=()=>{
         <input type="text" className='border-[1px] border-[#EBECF0] rounded-md pl-1' value={card.taskName} onChange={(e)=>{setCard({...card,taskName:e.target.value})}} />
         </div>
         
-        <div className='flex flex-col'>
+        {/* <div className='flex flex-col'>
         <label htmlFor="">Color</label>
         <select name="" id="" className='border-[1px] border-[#FFFFFF] rounded-md pl-1' onChange={(e)=>handleColor(e)} value={card.color}>
         <option value="#FFFFFF">White</option>
@@ -131,7 +134,7 @@ const handleTitle=()=>{
           <option value="#FF80CE">Pink</option>
           <option value="#FEC404">Yellow</option>
         </select>
-        </div>
+        </div> */}
        
         <div className='flex flex-col'>
         <label htmlFor="">Description:</label>
@@ -153,7 +156,7 @@ const handleTitle=()=>{
         <input type="date" className='border-[1px] border-[#EBECF0] rounded-md pl-1' value={card.date} onChange={(e)=>{setCard({...card,date:e.target.value})}} />
         </div>
         <hr />
-        <button type='button' className='bg-[#FBFBFB] w-1/5 ml-[70%] border-[1px] border-[#EBECF0] hover:bg-[#F3F3F3] rounded-md'onClick={handleTitle} >Save</button>
+        <button type='reset' className='bg-[#FBFBFB] w-1/5 ml-[70%] border-[1px] border-[#EBECF0] hover:bg-[#F3F3F3] rounded-md' onClick={handleTitle} >Save</button>
         </form>
     </div>
     </div> 

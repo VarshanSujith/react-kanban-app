@@ -21,6 +21,7 @@ const handleSubmit=(e:FormEvent)=>{
     }
   const handleMe=()=>{
     addCardtoDb(edit) 
+    setTEdit(false)
   }  
 
 // async function addCardtoDb(card:cardarray){
@@ -79,7 +80,7 @@ function addCardtoDb(card:cardarray){
         <label htmlFor="">Task Name</label>
         <input type="text" className='border-[1px] border-[#EBECF0] rounded-md pl-1' value={edit.taskName} onChange={(e)=>{setEdit({...edit,taskName:e.target.value})}} /> 
         </div>
-        <div> 
+        {/* <div> 
           <label htmlFor="">Color</label>
         <select name="" id="" className='border-[1px] border-[#FFFFFF] rounded-md pl-1' onChange={(e)=>handleColor(e)} value={edit.color}>
         <option value="#FFFFFF">White</option>
@@ -88,7 +89,7 @@ function addCardtoDb(card:cardarray){
           <option value="#FF80CE">Pink</option>
           <option value="#FEC404">Yellow</option>
         </select>
-        </div>
+        </div> */}
         <div className='flex flex-col gap-2'>
         <label htmlFor="">Description</label>
         <textarea className='border-[1px] border-[#EBECF0] rounded-md pl-1' value={edit.description} onChange={(e)=>{setEdit({...edit,description:e.target.value})}} />
